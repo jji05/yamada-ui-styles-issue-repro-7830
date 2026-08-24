@@ -18,6 +18,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@repo/theme": "workspace:*",
     "@repo/yamada-ui": "workspace:*",
     "@storybook/addon-a11y": "10.5.7",
     "@storybook/addon-docs": "10.5.7",
