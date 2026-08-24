@@ -1,0 +1,79 @@
+import type { Variants } from "motion/react"
+import type { FC } from "react"
+import type { LoadingSharedProps } from "./loading-provider"
+import { memo } from "react"
+import { useTimeout } from "@yamada-ui/react/hooks/use-timeout"
+import { isValidElement } from "@yamada-ui/react"
+import { motion } from "@yamada-ui/react/components/motion"
+import { Text } from "@yamada-ui/react/components/text"
+import { useLoadingComponent } from "./use-loading-component"
+
+const variants: Variants = {
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 0.2, 1],
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      duration: 0.4,
+      ease: [0.4, 0, 1, 1],
+    },
+  },
+  initial: {
+    opacity: 0,
+    scale: 0.95,
+  },
+}
+
+export interface BackgroundProps extends LoadingSharedProps {}
+
+export const Background: FC<BackgroundProps> = memo(
+  ({ duration, initial, loadingScheme, message, onFinish }) => {
+    const Component = useLoadingComponent(loadingScheme)
+
+    useTimeout(onFinish, duration)
+
+    return (
+      <motion.div
+        data-loading
+        alignItems="center"
+        animate="animate"
+        bg="bg.panel"
+        bottom="md"
+        boxShadow="lg"
+        display="flex"
+        exit="exit"
+        gap="sm"
+        initial={initial}
+        justifyContent="center"
+        maxW="20rem"
+        p="sm"
+        position="fixed"
+        right="md"
+        rounded="l2"
+        variants={variants}
+        zIndex="beerus"
+      >
+        <Component fontSize="xl" />
+
+        {message ? (
+          isValidElement(message) ? (
+            message
+          ) : (
+            <Text fontSize="sm" lineClamp={1}>
+              {message}
+            </Text>
+          )
+        ) : null}
+      </motion.div>
+    )
+  },
+)
+
+Background.displayName = "Background"

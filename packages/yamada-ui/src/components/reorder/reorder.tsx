@@ -1,0 +1,112 @@
+"use client"
+
+import type { PropsWithChildren, ReactElement } from "react"
+import type { GenericsComponent, HTMLStyledProps, ThemeProps, Merge } from "@yamada-ui/react"
+import type { HTMLMotionProps } from "@yamada-ui/react/components/motion"
+import type { ReorderStyle } from "./reorder.style"
+import type { UseReorderItemProps, UseReorderProps } from "./use-reorder"
+import { Reorder as OriginalReorder } from "motion/react"
+import { createSlotComponent, styled } from "@yamada-ui/react"
+import { useValue } from "../../hooks/use-value"
+import { GripVerticalIcon } from "@yamada-ui/react/components/icon"
+import { reorderStyle } from "./reorder.style"
+import {
+  ReorderContext,
+  ReorderItemContext,
+  useReorder,
+  useReorderItem,
+  useReorderItemContext,
+} from "./use-reorder"
+
+export interface ReorderItem<Y = string> extends ReorderItemProps<Y> {}
+
+export interface ReorderRootProps<Y = string>
+  extends
+    Merge<
+      HTMLMotionProps<"ul">,
+      Omit<UseReorderProps<Y>, "item" | "items" | "orientation">
+    >,
+    ThemeProps<ReorderStyle> {
+  /**
+   * If provided, generate reorder items based on items.
+   *
+   */
+  items?: ReorderItem<Y>[]
+}
+
+const {
+  PropsContext: ReorderPropsContext,
+  usePropsContext: useReorderPropsContext,
+  withContext,
+  withProvider,
+} = createSlotComponent<ReorderRootProps, ReorderStyle>("reorder", reorderStyle)
+
+export { ReorderPropsContext, useReorderPropsContext }
+
+/**
+ * `Reorder` is a component that allows you to change the order of items using drag and drop.
+ *
+ * @see https://yamada-ui.com/docs/components/reorder
+ */
+export const ReorderRoot = withProvider<"ul", ReorderRootProps>(
+  <Y extends any = string>({
+    orientation: orientationProp,
+    ...rest
+  }: ReorderRootProps<Y>) => {
+    const orientation = useValue(orientationProp)
+    const { children, getRootProps } = useReorder({
+      ...rest,
+      item: <ReorderItem />,
+      orientation,
+    })
+
+    return (
+      <ReorderContext value={{ orientation }}>
+        <styled.ul
+          as={OriginalReorder.Group<Y[]>}
+          {...(getRootProps() as HTMLStyledProps<"ul">)}
+        >
+          {children}
+        </styled.ul>
+      </ReorderContext>
+    )
+  },
+  "root",
+  { transferProps: ["orientation"] },
+)() as GenericsComponent<{
+  <Y = string>(props: ReorderRootProps<Y>): ReactElement
+}>
+
+export interface ReorderItemProps<Y = string>
+  extends
+    Omit<Merge<HTMLMotionProps<"li">, UseReorderItemProps<Y>>, "children">,
+    PropsWithChildren {}
+
+export const ReorderItem = withContext<"li", ReorderItemProps>(
+  <Y extends any = string>(props: ReorderItemProps<Y>) => {
+    const { getItemProps, getTriggerProps } = useReorderItem(props)
+
+    return (
+      <ReorderItemContext value={{ getTriggerProps }}>
+        <styled.li
+          as={OriginalReorder.Item<Y>}
+          {...(getItemProps() as HTMLStyledProps<"li">)}
+        />
+      </ReorderItemContext>
+    )
+  },
+  "item",
+)() as GenericsComponent<{
+  <Y = string>(props: ReorderItemProps<Y>): ReactElement
+}>
+
+export interface ReorderTriggerProps extends HTMLStyledProps {}
+
+export const ReorderTrigger = withContext<"div", ReorderTriggerProps>(
+  "div",
+  "trigger",
+)(undefined, (props) => {
+  const { getTriggerProps } = useReorderItemContext()
+
+  return { children: <GripVerticalIcon />, ...getTriggerProps(props) }
+})

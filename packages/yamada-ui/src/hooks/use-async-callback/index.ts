@@ -1,0 +1,80 @@
+import type { DependencyList } from "react"
+import type { Loading } from "../../components/loading"
+import { useCallback, useMemo } from "react"
+import { useLoading } from "../../components/loading"
+import { useCallbackRef } from "@yamada-ui/react"
+import { useProcessing } from "@yamada-ui/react/hooks/use-processing"
+
+type Callback = (...args: any[]) => any
+
+export interface UseAsyncCallbackOptions {
+  /**
+   * The method to use for loading.
+   * If `false`, the loading will not be shown.
+   */
+  loading?: false | Loading.Method
+  /**
+   * The options to pass to the loading component.
+   */
+  loadingOptions?: Loading.Options
+  /**
+   * If `false`, the processing will not change.
+   *
+   * @default true
+   */
+  processing?: boolean
+}
+
+/**
+ * `useAsyncCallback` is a custom hook used to manage async callbacks.
+ *
+ * @see https://yamada-ui.com/docs/hooks/use-async-callback
+ */
+export const useAsyncCallback = <Y extends Callback>(
+  callback: Y,
+  deps: DependencyList,
+  {
+    loading: method = false,
+    loadingOptions,
+    processing: shouldProcessing = true,
+  }: UseAsyncCallbackOptions = {},
+): UseAsyncCallbackReturn<Y> => {
+  const context = useLoading()
+  const { finish, loading, start } = useProcessing()
+  const shouldLoading = !!method
+  const callbackRef = useCallbackRef(callback, deps)
+
+  const asyncCallback = useCallback(
+    async (...args: Parameters<Y>) => {
+      try {
+        if (shouldProcessing) start()
+        if (shouldLoading) context[method].start(loadingOptions)
+
+        return await callbackRef(...args)
+      } finally {
+        if (shouldProcessing) finish()
+        if (shouldLoading) context[method].finish()
+      }
+    },
+    [
+      callbackRef,
+      shouldProcessing,
+      shouldLoading,
+      context,
+      method,
+      loadingOptions,
+      start,
+      finish,
+    ],
+  )
+
+  const control = useMemo(() => ({ finish, start }), [finish, start])
+
+  return [loading, asyncCallback, control]
+}
+
+export type UseAsyncCallbackReturn<Y extends Callback> = [
+  loading: boolean,
+  callback: (...args: Parameters<Y>) => Promise<Awaited<ReturnType<Y>>>,
+  control: { finish: () => void; start: () => void },
+]
