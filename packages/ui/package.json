@@ -13,13 +13,13 @@
     "storybook:build": "storybook build -c .storybook"
   },
   "dependencies": {
+    "@repo/theme": "workspace:*",
+    "@repo/yamada-ui": "workspace:*",
     "@yamada-ui/react": "2.2.7",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@repo/theme": "workspace:*",
-    "@repo/yamada-ui": "workspace:*",
     "@storybook/addon-a11y": "10.5.7",
     "@storybook/addon-docs": "10.5.7",
     "@storybook/nextjs-vite": "10.5.7",

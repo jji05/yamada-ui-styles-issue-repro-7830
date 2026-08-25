@@ -24,6 +24,12 @@ importers:
 
   packages/ui:
     dependencies:
+      '@repo/theme':
+        specifier: workspace:*
+        version: link:../theme
+      '@repo/yamada-ui':
+        specifier: workspace:*
+        version: link:../yamada-ui
       '@yamada-ui/react':
         specifier: 2.2.7
         version: 2.2.7(@emotion/react@11.14.0(@types/react@19.2.8)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.8)(react@19.2.8))(@types/react@19.2.8)(react@19.2.8))(@types/react@19.2.8)(motion@13.1.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react-is@17.0.2)(react@19.2.8)
@@ -34,12 +40,6 @@ importers:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
     devDependencies:
-      '@repo/theme':
-        specifier: workspace:*
-        version: link:../theme
-      '@repo/yamada-ui':
-        specifier: workspace:*
-        version: link:../yamada-ui
       '@storybook/addon-a11y':
         specifier: 10.5.7
         version: 10.5.7(storybook@10.5.7(@types/react@19.2.8)(prettier@3.9.6)(react@19.2.8))
