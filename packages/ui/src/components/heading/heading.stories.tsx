@@ -9,8 +9,10 @@ import {
 
 type Story = StoryFn<typeof Heading>
 
+// Issue start
 const fontSizes = Object.keys(theme.fontSizes ?? {})
 const fontWeights = Object.keys(theme.fontWeights ?? {})
+// Issue end
 
 const meta: Meta<typeof Heading> = {
   component: Heading,
@@ -67,6 +69,7 @@ const meta: Meta<typeof Heading> = {
         category: "Styling",
       },
     },
+    // Issue start
     fontSize: {
       control: { type: "select" },
       options: Object.values(fontSizes).concat(Object.values(DEFAULT_FONT_SIZES)),
@@ -85,6 +88,7 @@ const meta: Meta<typeof Heading> = {
         category: "Styling",
       },
     },
+    // Issue end
   },
 }
 
