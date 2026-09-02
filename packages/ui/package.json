@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@repo/theme": "workspace:*",
-    "@repo/yamada-ui": "workspace:*",
     "@yamada-ui/react": "2.2.7",
     "react": "19.2.8",
     "react-dom": "19.2.8"

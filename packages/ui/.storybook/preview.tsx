@@ -1,5 +1,4 @@
-import { VStack } from "@repo/yamada-ui"
-import { UIProvider } from "@repo/yamada-ui"
+import { VStack, UIProvider } from "../src"
 import type { Preview } from "@storybook/react"
 import type { FC, PropsWithChildren } from "react"
 

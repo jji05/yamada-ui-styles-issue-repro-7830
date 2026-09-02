@@ -4,7 +4,7 @@
   "hooks": { "overwrite": true },
   "providers": { "overwrite": true },
   "monorepo": true,
-  "path": "./packages/yamada-ui",
+  "path": "./packages/ui",
   "format": { "enabled": false },
   "lint": { "enabled": false },
   "theme": { "path": "./packages/theme" }

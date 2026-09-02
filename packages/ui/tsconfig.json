@@ -1,26 +1,32 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
     "isolatedModules": true,
-    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "incremental": false,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "noUncheckedSideEffectImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "@storybook-config/*": ["./.storybook/*"],
       "@repo/ui/*": ["./src/*"]
     },
     "rootDir": ".",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "incremental": true,
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "module": "esnext",
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "ES2022",
     "types": ["node"]
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }
