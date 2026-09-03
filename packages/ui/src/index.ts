@@ -160,4 +160,4 @@ export * from "@yamada-ui/react/hooks/use-value"
 export * from "@yamada-ui/react/hooks/use-window-event"
 
 export * from "@yamada-ui/react/providers/i18n-provider"
-export * from "@yamada-ui/react/providers/ui-provider"
+export * from "./providers/ui-provider"

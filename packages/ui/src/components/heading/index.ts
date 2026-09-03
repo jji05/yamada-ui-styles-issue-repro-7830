@@ -1,4 +1,3 @@
 export * from "./heading.style"
-export { HeadingPropsContext, useHeadingPropsContext } from "./heading"
-export { Heading } from "./namespace"
-export type { HeadingLevel, HeadingProps } from "./heading"
+export { Heading, HeadingPropsContext, useHeadingPropsContext } from "./heading"
+export type { HeadingProps } from "./heading"
